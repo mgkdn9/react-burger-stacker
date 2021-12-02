@@ -3,21 +3,14 @@ import Ingredient from './Ingredient'
 import AddBtn from './AddBtn'
 
 export default class IngredientList extends Component {
-  state = {
-    buffer: 0
-  }
-  //helper functions
-  addToBurger = (e) => {
-
-  }
   
   render() {
     
-    const allIngredients = this.props.ingredients.map((ing) => {
+    const allIngredients = this.props.ingredients.map((ing,index) => {
       return (
-        <div>
+        <div key={index}>
           <Ingredient name={ing.name} backgroundColor={ing.color}/>
-          <AddBtn onClick={this.addToBurger}/>
+          <AddBtn color={ing.color} foodName={ing.name} onClick={this.props.onClick}/>
         </div>
       )
     })
