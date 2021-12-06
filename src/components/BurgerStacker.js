@@ -1,11 +1,10 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import IngredientList from './IngredientList'
 import BurgerPane from './BurgerPane'
 
-export default class BurgerStacker extends Component {
+const BurgerStacker = () => {
   // state --> holds ingredients
-  state = {
-    ingredients: [//This won't change
+  const [ingredients, setIngredients] = useState([
       {name: 'Kaiser Bun', color: 'saddlebrown'},
       {name: 'Sesame Bun', color: 'sandybrown'},
       {name: 'Gluten Free Bun', color: 'peru'},
@@ -19,50 +18,43 @@ export default class BurgerStacker extends Component {
       {name: 'Bacon', color: 'maroon'},
       {name: 'Onion', color: 'lightyellow'},
       {name: 'Cheese', color: 'gold'}
-    ],
-    burgerIngredients: []
-  }
+    ])
+  const [burgerIngredients, setBurgerIngredients] = useState([])
+  
   // add to stack function (maybe passed to child?)
-  addToStack = (e) => {
+  const addToStack = (e) => {
     let ingColor =  e.target.style.backgroundColor
     let ingName = e.target.innerText
-    this.setState({
-      burgerIngredients: [{name: ingName, color: ingColor}, ...this.state.burgerIngredients]
-    })
+    setBurgerIngredients([{name: ingName, color: ingColor}, ...burgerIngredients])
   }
   // clear burger stack function (maybe passed to child?)
-  clearBurger = () => {
-    this.setState({
-      burgerIngredients: []
-    })
+  const clearBurger = () => {
+    setBurgerIngredients([])
   }
   // remove from stack
-  removeFromStack = (e) => {
-    console.log('old stack: ',this.state.burgerIngredients)
-    let newBurgerIngredientArray = this.state.burgerIngredients.filter(ingredients => ingredients.name !== e.target.innerText)
+  const removeFromStack = (e) => {
+    console.log('old stack: ', burgerIngredients)
+    let newBurgerIngredientArray = burgerIngredients.filter(ingredients => ingredients.name !== e.target.innerText)
     console.log('new stack: ',newBurgerIngredientArray)
-    this.setState({
-      burgerIngredients: newBurgerIngredientArray
-    })
+    setBurgerIngredients(newBurgerIngredientArray)
   }
-
-  render() {
-    console.log('a react Component: ', Component)
-    return (
-      <main>
-        <h1>Burger Stacker</h1>
-        <div className="panes">
-          <IngredientList
-            ingredients={this.state.ingredients}
-            add={this.addToStack}
-          />
-          <BurgerPane
-            ingredients={this.state.burgerIngredients}
-            clear={this.clearBurger}
-            remove={this.removeFromStack}
-          />
-        </div>
-      </main>
-    )
-  }
+    // Not gonna work anymore since not a class Component
+    // console.log('a react Component: ', Component)
+  return (
+    <main>
+      <h1>Burger Stacker</h1>
+      <div className="panes">
+        <IngredientList
+          ingredients={ingredients}
+          add={addToStack}
+        />
+        <BurgerPane
+          ingredients={burgerIngredients}
+          clear={clearBurger}
+          remove={removeFromStack}
+        />
+      </div>
+    </main>
+  )
 }
+export default BurgerStacker
